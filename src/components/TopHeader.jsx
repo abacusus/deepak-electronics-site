@@ -36,7 +36,7 @@ const TopHeader = () => {
             src="https://cdn.lordicon.com/vpbspaec.json"
             trigger="hover"
             stroke="bold"
-            style={{ width: '38px', height: '38px' }}
+            style={{ width: '35px', height: '38px' }}
             colors="primary:#ffffff,secondary:#000000"
           ></lord-icon>
           <span >
