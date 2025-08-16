@@ -1,6 +1,6 @@
 import React from 'react'
 
-const topHeader = () => {
+const TopHeader = () => {
   return (
     <div className="top-header relative overflow-hidden h-14 text-white flex items-center justify-between  font-semibold"
       style={{ backgroundColor: "#7569E0" }}>
@@ -36,7 +36,7 @@ const topHeader = () => {
             src="https://cdn.lordicon.com/vpbspaec.json"
             trigger="hover"
             stroke="bold"
-            style={{ width: '28px', height: '28px' }}
+            style={{ width: '38px', height: '38px' }}
             colors="primary:#ffffff,secondary:#000000"
           ></lord-icon>
           <span >
@@ -51,7 +51,7 @@ const topHeader = () => {
             src="https://cdn.lordicon.com/nnzfcuqw.json"
             trigger="hover"
             stroke="bold"
-            style={{ width: '28px', height: '28px' }}
+            style={{ width: '38px', height: '38px' }}
             colors="primary:#ffffff,secondary:#ffffff"
           ></lord-icon>
           <span className="px-2  sm:max-w-none">
@@ -65,11 +65,11 @@ const topHeader = () => {
         {/* social media */}
         <div className="hidden sm:flex gap-2">
           <lord-icon src="https://cdn.lordicon.com/lplofcfe.json" trigger="hover" stroke="bold"
-            style={{ width: '25px', height: '25px' }} colors="primary:#fff,secondary:#fff"></lord-icon>
+            style={{ width: '45px', height: '45px' }} colors="primary:#fff,secondary:#fff"></lord-icon>
           <lord-icon src="https://cdn.lordicon.com/cuwcpyqc.json" trigger="hover" stroke="bold"
-            style={{ width: '25px', height: '25px' }} colors="primary:#fff,secondary:#fff"></lord-icon>
+            style={{ width: '45px', height: '45px' }} colors="primary:#fff,secondary:#fff"></lord-icon>
           <lord-icon src="https://cdn.lordicon.com/euybrknk.json" trigger="hover" stroke="bold"
-            style={{ width: '25px', height: '25px' }} colors="primary:#fff,secondary:#fff"></lord-icon>
+            style={{ width: '45px', height: '45px' }} colors="primary:#fff,secondary:#fff"></lord-icon>
         </div>
 
         {/* Call me back  */}
@@ -92,4 +92,4 @@ const topHeader = () => {
   )
 }
 
-export default topHeader
+export default TopHeader

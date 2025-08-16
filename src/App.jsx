@@ -1,4 +1,4 @@
-import TopHeader from './components/topHeader'
+import TopHeader from './components/TopHeader'
 import './App.css'
 
 function App() {
