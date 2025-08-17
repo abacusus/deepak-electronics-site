@@ -2,8 +2,10 @@ import React from 'react'
 
 const TopHeader = () => {
   return (
-    <div className="top-header relative overflow-hidden h-14 text-white flex items-center justify-between  font-semibold"
-      style={{ backgroundColor: "#7569E0" }}>
+    <div
+  className="top-header sticky top-0 z-50 overflow-hidden h-14 text-white flex items-center justify-between font-semibold"
+  style={{ backgroundColor: "#7569E0" }}
+>
       <style>
         {`
          @keyframes fadeInOut {

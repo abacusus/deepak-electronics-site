@@ -30,7 +30,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-white shadow-md relative top-0 left-0 w-full z-50">
+    <nav className="bg-white sticky top-13  shadow-md   left-0 w-full z-50">
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center py-4">
         {/* Logo 
         <div className="text-2xl font-bold text-red-600">MyBrand</div>   I WAS PLANNING TO ADD LOGO IN THE NAVBAR BUT DROPPED THE IDEA ,
