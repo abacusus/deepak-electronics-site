@@ -19,12 +19,11 @@ const Carousel = () => {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  //  slides
   useEffect(() => {
     const updateSlides = () => {
-      if (window.innerWidth >= 1024) setSlidesPerView(3); // lg:w-1/3
-      else if (window.innerWidth >= 640) setSlidesPerView(2); // sm:w-1/2
-      else setSlidesPerView(1); // mobile full width
+      if (window.innerWidth >= 1024) setSlidesPerView(3);
+      else if (window.innerWidth >= 640) setSlidesPerView(2);
+      else setSlidesPerView(1);
     };
     updateSlides();
     window.addEventListener("resize", updateSlides);
@@ -32,25 +31,14 @@ const Carousel = () => {
   }, []);
 
   const prevSlide = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? products.length - slidesPerView : prev - 1
-    );
+    setCurrentIndex((p) => (p === 0 ? products.length - slidesPerView : p - 1));
   };
-
   const nextSlide = () => {
-    setCurrentIndex((prev) =>
-      prev >= products.length - slidesPerView ? 0 : prev + 1
-    );
+    setCurrentIndex((p) => (p >= products.length - slidesPerView ? 0 : p + 1));
   };
 
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchMove = (e) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-
+  const handleTouchStart = (e) => (touchStartX.current = e.touches[0].clientX);
+  const handleTouchMove = (e) => (touchEndX.current = e.touches[0].clientX);
   const handleTouchEnd = () => {
     const diff = touchStartX.current - touchEndX.current;
     if (diff > 50) nextSlide();
@@ -58,68 +46,78 @@ const Carousel = () => {
   };
 
   return (
-    <div className="relative w-full max-w-7xl mx-auto px-4 ">
-        <div className="text-center font-mono font-sherif 
-                text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
-                text-black tracking-wide uppercase 
-                ">
-  Accurate Weighing Solutions for Every Need
-</div>
-
-      <div className="flex items-center">
-        {/* Left Arrow */}
-        <ChevronLeft
-          className="w-12 h-12 cursor-pointer text-gray-600 hover:text-black hidden md:block"
-          onClick={prevSlide}
-        />
-
-        {/* Carousel */}
-        <div
-          className="flex overflow-hidden w-full mx-4"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+    <div className="relative w-full max-w-7xl mx-auto px-4 py-12">
+      {/* Background */}
+      <div aria-hidden className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <svg
+          className="w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          viewBox="0 0 1440 400"
         >
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${(currentIndex * 100) / slidesPerView}%)`,
-            }}
-          >
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 p-3"
-              >
-                <a
-                  href={product.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block"
-                >
-                  <div className="relative overflow-hidden rounded-2xl shadow-lg group h-80">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                    />
-                    {/* Hover  effect */}
-                    <div className="absolute inset-0 bg-white/10 bg-opacity-40 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center text-white transition duration-300 p-3 text-center">
-                      <h3 className="text-xl font-bold">{product.name}</h3>
-                      <p className="text-sm mt-2">{product.details}</p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            ))}
-          </div>
+          <path fill="#eef2ff" d="M0,160 C480,320 960,0 1440,160 L1440,400 L0,400 Z" />
+          <circle cx="200" cy="100" r="40" fill="#c7d2fe" opacity="0.6" />
+          <circle cx="1200" cy="220" r="60" fill="#a5b4fc" opacity="0.5" />
+          <circle cx="700" cy="50" r="25" fill="#6366f1" opacity="0.4" />
+          <circle cx="900" cy="70" r="19" fill="#6366f1" opacity="0.2" />
+          
+
+        </svg>
+      </div>
+
+      {/* Foreground content */}
+      <div className="relative z-10">
+        {/* Section Heading */}
+        <div className="text-center mb-10">
+          <h2 className="font-mono font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-indigo-900 tracking-wide uppercase">
+            Accurate Weighing Solutions for Every Need
+          </h2>
+          <p className="mt-3 text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
+            Explore our wide range of weighing scales designed for kitchens,
+            personal use, and professional industries — ensuring precision and reliability.
+          </p>
         </div>
 
-        {/* Right Arrow */}
-        <ChevronRight
-          className="w-12 h-12 cursor-pointer text-gray-600 hover:text-black hidden md:block"
-          onClick={nextSlide}
-        />
+        {/* Carousel */}
+        <div className="flex items-center">
+          <ChevronLeft
+            className="w-12 h-12 cursor-pointer text-gray-500 hover:text-indigo-600 transition hidden md:block"
+            onClick={prevSlide}
+          />
+          <div
+            className="flex overflow-hidden w-full mx-4"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${(currentIndex * 100) / slidesPerView}%)` }}
+            >
+              {products.map((product) => (
+                <div key={product.id} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 p-3">
+                  <a href={product.link} target="_blank" rel="noopener noreferrer" className="block">
+                    <div className="relative overflow-hidden rounded-2xl shadow-lg group h-80 bg-white">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent opacity-0 group-hover:opacity-100 flex flex-col justify-end p-5 transition duration-500 rounded-2xl">
+                        <h3 className="text-lg sm:text-xl font-bold text-white">{product.name}</h3>
+                        <p className="text-sm text-gray-200 mt-1">{product.details}</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+          <ChevronRight
+            className="w-12 h-12 cursor-pointer text-gray-500 hover:text-indigo-600 transition hidden md:block"
+            onClick={nextSlide}
+          />
+        </div>
       </div>
     </div>
   );
