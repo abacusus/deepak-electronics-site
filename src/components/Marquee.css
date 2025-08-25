@@ -68,6 +68,15 @@
     max-height: 50px;
     max-width: 140px;
   }
+
+  /* Faster scroll on medium screens */
+  .logo-track {
+    animation: scroll-left 18s linear infinite;
+  }
+  .logo-track.reverse {
+    animation: scroll-right 18s linear infinite;
+  }
+
 }
 
 @media (max-width: 768px) {
@@ -79,5 +88,14 @@
   .logo-card img {
     max-height: 40px;
     max-width: 120px;
+  }
+
+
+   /* Even faster scroll on small screens */
+  .logo-track {
+    animation: scroll-left 42s linear infinite;
+  }
+  .logo-track.reverse {
+    animation: scroll-right 42s linear infinite;
   }
 }

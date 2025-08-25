@@ -6,6 +6,7 @@ import './App.css'
 import LogoMarquee from './components/LogoMarquee'
 import Storep from './components/Storep'
 import { Import, Store } from 'lucide-react'
+import BigSearchBar from './components/BigSearchBar'
 
 function App() {
 
@@ -14,34 +15,14 @@ function App() {
       <TopHeader />
       <Navbar />
       <Carousel />
+      <br></br><br></br>
       
+      <BigSearchBar />
       
-      
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
+     <br></br>
+
+     <br></br>
+     
       
       
       
