@@ -4,6 +4,8 @@ import Navbar from './components/Navbar'
 import Carousel from './components/Carousel'
 import './App.css'
 import LogoMarquee from './components/LogoMarquee'
+import Storep from './components/Storep'
+import { Import, Store } from 'lucide-react'
 
 function App() {
 
@@ -12,6 +14,8 @@ function App() {
       <TopHeader />
       <Navbar />
       <Carousel />
+      
+      
       
       <br></br>
       <br></br>
@@ -38,12 +42,13 @@ function App() {
       <br></br>
       <br></br>
       <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
+      
+      
+      
       <LogoMarquee />
-
+      <br></br>
+      <br></br>
+      <Storep />
       <Footer />
     </>
   )

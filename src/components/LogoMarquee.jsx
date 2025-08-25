@@ -11,28 +11,49 @@ const clientLogos = [
 
 const LogoMarquee = () => {
   return (
-    <div >
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">Our Esteemed Clients</h2>
-        <p className="text-gray-600">Proudly serving industry leaders</p>
-      </div>
-    <div className="logo-carousel">
-      <div className="logo-track">
-        {clientLogos.map((logo, idx) => (
-          <div className="logo-card" key={idx}>
-            <img src={logo.src} alt={logo.name} />
-          </div>
-        ))}
-        {/*  infinite effect */}
-        {clientLogos.map((logo, idx) => (
-          <div className="logo-card" key={`${idx}-dup`}>
-            <img src={logo.src} alt={logo.name} />
-          </div>
-        ))}
-      </div>
+  <div>
+    <div className="text-center mb-10">
+      <h2 className="text-3xl font-bold text-gray-800 mb-4">Our Esteemed Clients</h2>
+      <p className="text-gray-600">Proudly serving industry leaders</p>
     </div>
+
+    {/* First Carousel (left to right) */}
+    <div className="logo-carousel">
+  <div className="logo-track">
+    {/* first row left scroll */}
+    {clientLogos.map((logo, idx) => (
+      <div className="logo-card" key={idx}>
+        <img src={logo.src} alt={logo.name} />
       </div>
-  );
+    ))}
+    {clientLogos.map((logo, idx) => (
+      <div className="logo-card" key={`${idx}-dup`}>
+        <img src={logo.src} alt={logo.name} />
+      </div>
+    ))}
+  </div>
+</div>
+
+<div className="logo-carousel">
+  <div className="logo-track reverse">
+    {/* second row right scroll */}
+    {clientLogos.map((logo, idx) => (
+      <div className="logo-card" key={idx}>
+        <img src={logo.src} alt={logo.name} />
+      </div>
+    ))}
+    {clientLogos.map((logo, idx) => (
+      <div className="logo-card" key={`${idx}-dup`}>
+        <img src={logo.src} alt={logo.name} />
+      </div>
+    ))}
+  </div>
+</div>
+
+  </div>
+);
+
+      
 };
 
 export default LogoMarquee;
