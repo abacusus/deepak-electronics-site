@@ -3,6 +3,7 @@ import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import Carousel from './components/Carousel'
 import './App.css'
+import LogoMarquee from './components/LogoMarquee'
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
       <TopHeader />
       <Navbar />
       <Carousel />
+      
       <br></br>
       <br></br>
       <br></br>
@@ -40,8 +42,7 @@ function App() {
       <br></br>
       <br></br>
       <br></br>
-      <br></br>
-      <br></br>
+      <LogoMarquee />
 
       <Footer />
     </>

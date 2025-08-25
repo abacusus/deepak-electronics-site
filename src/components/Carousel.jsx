@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const products = [
-  { id: 1, name: "Tabletop Weighing Scale", image: "https://cdn.pixabay.com/photo/2022/12/16/16/28/drinking-cups-7660117_640.jpg", details: "Digital tabletop scale, high accuracy, up to 30kg.", link: "/digital-scale" },
-  { id: 2, name: "Personal Weighing Scale", image: "https://cdn.pixabay.com/photo/2022/11/17/09/49/fog-7597710_640.jpg", details: "Glass body personal scale, measures up to 180kg.", link: "/personal-scale" },
-  { id: 3, name: "Kitchen Scale", image: "https://cdn.pixabay.com/photo/2024/09/22/23/40/butterfly-9067326_640.png", details: "Compact kitchen scale, up to 10kg capacity.", link: "/kitchen-scale" },
-  { id: 4, name: "Tabletop Weighing Scale", image: "https://cdn.pixabay.com/photo/2022/12/16/16/28/drinking-cups-7660117_640.jpg", details: "Digital tabletop scale, high accuracy, up to 30kg.", link: "/tabletop-scale" },
-  { id: 5, name: "Personal Weighing Scale", image: "https://cdn.pixabay.com/photo/2022/11/17/09/49/fog-7597710_640.jpg", details: "Glass body personal scale, measures up to 180kg.", link: "/personal-scale" },
+  { id: 1, name: "Tabletop Weighing Scale", image: "https://res.cloudinary.com/dcajb02df/image/upload/v1756096258/crane_epbjyf.jpg", details: "Digital tabletop scale, high accuracy, up to 30kg.", link: "/digital-scale" },
+  { id: 2, name: "Personal Weighing Scale", image: "https://res.cloudinary.com/dcajb02df/image/upload/v1756096348/table_top_hcsgug.jpg", details: "Glass body personal scale, measures up to 180kg.", link: "/personal-scale" },
+  { id: 3, name: "Kitchen Scale", image: "https://res.cloudinary.com/dcajb02df/image/upload/v1756096266/Billing_Machine_bhpjrj.jpg", details: "Compact kitchen scale, up to 10kg capacity.", link: "/kitchen-scale" },
+  { id: 4, name: "Tabletop Weighing Scale", image: "https://res.cloudinary.com/dcajb02df/image/upload/v1756096354/vela_counter_pulstu.jpg", details: "Digital tabletop scale, high accuracy, up to 30kg.", link: "/tabletop-scale" },
+  { id: 5, name: "Personal Weighing Scale", image: "https://res.cloudinary.com/dcajb02df/image/upload/v1756096348/table_top_hcsgug.jpg", details: "Glass body personal scale, measures up to 180kg.", link: "/personal-scale" },
   { id: 6, name: "Kitchen Scale", image: "https://cdn.pixabay.com/photo/2024/09/22/23/40/butterfly-9067326_640.png", details: "Compact kitchen scale, up to 10kg capacity.", link: "/kitchen-scale" },
   { id: 7, name: "Tabletop Weighing Scale", image: "https://cdn.pixabay.com/photo/2022/12/16/16/28/drinking-cups-7660117_640.jpg", details: "Digital tabletop scale, high accuracy, up to 30kg.", link: "/tabletop-scale" },
   { id: 8, name: "Personal Weighing Scale", image: "https://cdn.pixabay.com/photo/2022/11/17/09/49/fog-7597710_640.jpg", details: "Glass body personal scale, measures up to 180kg.", link: "/personal-scale" },
@@ -103,10 +103,17 @@ const Carousel = () => {
                         alt={product.name}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent opacity-0 group-hover:opacity-100 flex flex-col justify-end p-5 transition duration-500 rounded-2xl">
-                        <h3 className="text-lg sm:text-xl font-bold text-white">{product.name}</h3>
-                        <p className="text-sm text-gray-200 mt-1">{product.details}</p>
-                      </div>
+                      <div className="
+    absolute inset-0 
+    bg-gradient-to-t from-black/70 via-black/40 to-transparent 
+    opacity-100 md:opacity-0 md:group-hover:opacity-100 
+    flex flex-col justify-end p-5 
+    transition duration-500 rounded-2xl
+  ">
+  <h3 className="text-lg sm:text-xl font-bold text-white">{product.name}</h3>
+  <p className="text-sm text-gray-200 mt-1">{product.details}</p>
+</div>
+
                     </div>
                   </a>
                 </div>
