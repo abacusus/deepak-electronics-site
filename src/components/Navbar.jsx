@@ -27,6 +27,7 @@ export default function Navbar() {
     { name: "Product Video", href: "#" },
     { name: "Blog", href: "#" },
     { name: "Contact Us", href: "#" },
+    { name: "Admin Panel", href: "/Admin" }
   ];
 
   return (
