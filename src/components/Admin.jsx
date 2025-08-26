@@ -50,7 +50,7 @@ export default function App() {
     data.images = data.images ? data.images.split(',').map(url => url.trim()).filter(url => url) : [];
 
     try {
-      const response = await fetch("http://localhost:5000/products", {
+      const response = await fetch("/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

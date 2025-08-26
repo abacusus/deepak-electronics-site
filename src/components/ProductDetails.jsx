@@ -25,7 +25,7 @@ export default function ProductDetails() {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:5000/getproducts/${id}`)
+    fetch(`/api/getproducts/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);
@@ -63,7 +63,7 @@ export default function ProductDetails() {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/orders", {
+      const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),

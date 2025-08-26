@@ -6,14 +6,14 @@ export default function Admin_Order() {
 
   // Fetch orders
   const fetchOrders = async () => {
-    const res = await fetch("http://localhost:5000/getorders");
+    const res = await fetch("/api/getorders");
     const data = await res.json();
     setOrders(data);
   };
 
   // Update status
   const updateStatus = async (id, newStatus) => {
-    await fetch(`http://localhost:5000/getorders/${id}`, {
+    await fetch(`/api/getorders/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: newStatus }),

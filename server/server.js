@@ -82,20 +82,20 @@ const Order = mongoose.model("Order", OrderSchema);
 // Routes
 
 // Add product (admin)
-app.post("/products", async (req, res) => {
+app.post("/api/products", async (req, res) => {
   const product = new Product(req.body);
   await product.save();
   res.json(product);
 });
 
 // Get all products
-app.get("/getproducts", async (req, res) => {
+app.get("/api/getproducts", async (req, res) => {
   const products = await Product.find();
   res.json(products);
 });
 
 
-app.get("/getproducts/:productId", async (req, res) => {
+app.get("/api/getproducts/:productId", async (req, res) => {
   try {
     const product = await Product.findOne({ productId: req.params.productId });
     if (!product) return res.status(404).json({ error: "Product not found" });
@@ -106,7 +106,7 @@ app.get("/getproducts/:productId", async (req, res) => {
 });
 
 // Place order 
-app.post("/orders", async (req, res) => {
+app.post("/api/orders", async (req, res) => {
   const orderId = uuidv4().slice(0, 8); // short tracking code
   const order = new Order({ orderId, ...req.body });
   await order.save();
@@ -114,14 +114,14 @@ app.post("/orders", async (req, res) => {
 });
 
 // Track order
-app.get("/orders/:orderId", async (req, res) => {
+app.get("/api/orders/:orderId", async (req, res) => {
   const order = await Order.findOne({ orderId: req.params.orderId });
   if (!order) return res.status(404).json({ message: "Order not found" });
   res.json(order);
 });
 
 // Fetch all orders
-app.get("/getorders", async (req, res) => {
+app.get("/api/getorders", async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
     res.json(orders);
@@ -131,7 +131,7 @@ app.get("/getorders", async (req, res) => {
 });
 
 // Update order status (admin)
-app.put("/getorders/:id", async (req, res) => {
+app.put("/api/getorders/:id", async (req, res) => {
   try {
     const { status } = req.body;
     const order = await Order.findByIdAndUpdate(

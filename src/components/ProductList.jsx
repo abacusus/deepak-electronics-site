@@ -8,7 +8,7 @@ export default function ProductList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/getproducts") 
+    fetch("/api/getproducts") 
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error(err));
