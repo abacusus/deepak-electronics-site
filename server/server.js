@@ -10,7 +10,7 @@ app.use(express.json());
 
 //  MongoDB
 mongoose.connect(
-  "mongodb+srv://naman:naman@cluster0.wfqx2hc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+  "your_mongodb_connection_string_here",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -79,6 +79,17 @@ app.post("/products", async (req, res) => {
 app.get("/getproducts", async (req, res) => {
   const products = await Product.find();
   res.json(products);
+});
+
+//product with productId
+app.get("/getproducts/:productId", async (req, res) => {
+  try {
+    const product = await Product.findOne({ productId: req.params.productId });
+    if (!product) return res.status(404).json({ error: "Product not found" });
+    res.json(product);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Place order 

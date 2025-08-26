@@ -36,22 +36,24 @@ export default function ProductList() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.map((product) => (
               <div
-                key={product.id}
+                key={product.productId}
                 className="bg-white rounded-3xl shadow-2xl hover:shadow-lg cursor-pointer overflow-hidden transition border-1"
-                onClick={() => navigate(`/products/${product.id}`)}
+                onClick={() => navigate(`/products/${product.productId}`)}
               >
                 {/* Image */}
                 <img
+
+                
                   src={product.images[0]}
                   alt={product.name}
-                  className="w-full h-48 object-contain"
+                  className=" w-full h-48 object-contain"
                 />
 
                 {/* Info  Div*/}
                 <div className="p-4 bg-gray-200">
-                  <h3 className="text-lg font-semibold">{product.name}</h3>
-                  <p className="text-gray-500 text-sm">
-                    Category: {product.category}
+                  <h3 className="text-xl font-bold text-purple-600">{product.name}</h3>
+                  <p className="text-l font-bold text-gray-700">
+                     {product.category}
                   </p>
                   <p className="text-primary-600 font-bold mt-2">
                     Price: ₹{product.price}

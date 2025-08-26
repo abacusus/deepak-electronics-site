@@ -8,7 +8,7 @@ import Storep from './components/Storep';
 import BigSearchBar from './components/BigSearchBar';
 import Admin from './components/Admin';
 import ProductList from "./components/ProductList";
-import ProductDetails from "./ProductDetails";
+import ProductDetails from "./components/ProductDetails";
 import './App.css';
 
 function Home() {
