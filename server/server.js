@@ -10,7 +10,7 @@ app.use(express.json());
 
 //  MongoDB
 mongoose.connect(
-  "YOUR_CONNECTION_STRING_HERE",
+  "mongodb+srv://naman:naman@cluster0.wfqx2hc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

@@ -8,6 +8,7 @@ import Storep from './components/Storep';
 import BigSearchBar from './components/BigSearchBar';
 import Admin from './components/Admin';
 import ProductList from "./components/ProductList";
+import ProductDetails from "./ProductDetails";
 import './App.css';
 
 function Home() {
@@ -33,13 +34,14 @@ function Home() {
 export default function App() {
   return (
     <Router>
-      {/* ✅ Navbar at top for all pages */}
+      
     
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/products" element={<ProductList />} />
+         <Route path="/products/:id" element={<ProductDetails />} />
 
       </Routes>
     </Router>

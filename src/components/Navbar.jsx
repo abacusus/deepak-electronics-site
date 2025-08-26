@@ -6,7 +6,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const navItems = [
-    { name: "Home", href: "#" },
+    { name: "Home", href: "/" },
     {
       name: "Products",
       dropdown: [
