@@ -10,7 +10,7 @@ app.use(express.json());
 
 //  MongoDB
 mongoose.connect(
-  "your_mongodb_connection_string_here",
+  "Your_MongoDB_Connection_String_Here",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -60,6 +60,7 @@ const OrderSchema = new mongoose.Schema({
   }],
   status: { type: String, default: "Pending" },
   mobile: { type: String, required: true },  // customer's mobile number
+  
   email: { type: String, required: true },   // customer's email address
 });
 
