@@ -10,7 +10,7 @@ app.use(express.json());
 
 //  MongoDB
 mongoose.connect(
-  "Your_MongoDB_Connection_String_Here",
+  "mongodb+srv://naman:naman@cluster0.wfqx2hc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -53,19 +53,31 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", productSchema);
 
 const OrderSchema = new mongoose.Schema({
-  orderId: String, // tracking code
-  items: [{ 
-    productId: String, 
-    quantity: Number 
-  }],
-  status: { type: String, default: "Pending" },
-  mobile: { type: String, required: true },  // customer's mobile number
-  
-  email: { type: String, required: true },   // customer's email address
+  orderId: { type: String, required: true }, // unique tracking code
+  productId: { type: String, required: true }, // product id
+  productName: { type: String, required: true }, // product name
+  quantity: { type: Number, required: true }, //  quantity
+
+  address: {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    mobile: { type: String, required: true },
+    alternateMobile: { type: String },
+    houseNo: { type: String, required: true },
+    streetNo: { type: String },
+    landmark: { type: String },
+    town: { type: String, required: true },
+    district: { type: String, required: true },
+    state: { type: String, required: true },
+    pincode: { type: String, required: true },
+  },
+
+  status: { type: String, default: "Pending" }, // order status
+  createdAt: { type: Date, default: Date.now }
 });
 
-
 const Order = mongoose.model("Order", OrderSchema);
+
 
 // Routes
 
@@ -82,7 +94,7 @@ app.get("/getproducts", async (req, res) => {
   res.json(products);
 });
 
-//product with productId
+
 app.get("/getproducts/:productId", async (req, res) => {
   try {
     const product = await Product.findOne({ productId: req.params.productId });
@@ -108,14 +120,29 @@ app.get("/orders/:orderId", async (req, res) => {
   res.json(order);
 });
 
+// Fetch all orders
+app.get("/getorders", async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Update order status (admin)
-app.put("/orders/:orderId", async (req, res) => {
-  const order = await Order.findOneAndUpdate(
-    { orderId: req.params.orderId },
-    { status: req.body.status },
-    { new: true }
-  );
-  res.json(order);
+app.put("/getorders/:id", async (req, res) => {
+  try {
+    const { status } = req.body;
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 //  server

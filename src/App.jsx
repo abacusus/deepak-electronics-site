@@ -9,6 +9,7 @@ import BigSearchBar from './components/BigSearchBar';
 import Admin from './components/Admin';
 import ProductList from "./components/ProductList";
 import ProductDetails from "./components/ProductDetails";
+import Admin_Order from "./components/Admin_Order";
 import './App.css';
 
 function Home() {
@@ -40,6 +41,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/admin_order" element={<Admin_Order />} />
         <Route path="/products" element={<ProductList />} />
          <Route path="/products/:id" element={<ProductDetails />} />
 
