@@ -76,7 +76,7 @@ const TopHeader = () => {
 
         {/* Call me back  */}
         <button
-          onClick={() => alert("Button is working ")}
+          
           className="hidden sm:flex items-center border border-white rounded-2xl px-2 sm:px-3 py-1 cursor-pointer 
              hover:bg-white hover:text-violet-700 transition-colors text-xs sm:text-sm flex-shrink-0"
         >

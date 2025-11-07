@@ -1,5 +1,5 @@
-// AdminPanel.js
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Admin_Order() {
   const [orders, setOrders] = useState([]);
@@ -27,7 +27,16 @@ export default function Admin_Order() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">📦 Orders Admin Panel</h1>
+      <div className="mb-4 flex justify-between items-center">
+         <h1 className="text-2xl font-bold mb-4">📦 Orders Admin Panel</h1>
+          <Link
+        to="/admin"
+        className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+      >
+        Product Panel
+      </Link>
+      </div>
+
       <table className="w-full border">
         <thead>
           <tr className="bg-gray-200">

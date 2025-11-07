@@ -119,13 +119,13 @@ const Footer = () => {
         <div className="mt-10 border-t border-white/20 pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/80">
           <p>© {new Date().getFullYear()} Your Brand. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <a href="#" className="hover:underline hover:text-yellow-200">
+            <a href="/privacypolicy" className="hover:underline hover:text-yellow-200">
               Privacy
             </a>
-            <a href="#" className="hover:underline hover:text-yellow-200">
+            <a href="/privacypolicy" className="hover:underline hover:text-yellow-200">
               Terms
             </a>
-            <a href="#" className="hover:underline hover:text-yellow-200">
+            <a href="/privacypolicy" className="hover:underline hover:text-yellow-200">
               Cookies
             </a>
           </div>

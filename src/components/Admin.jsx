@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-
+import { Link } from "react-router-dom";
 
 const InputField = ({ label, name, type = 'text', placeholder, required = false }) => (
   <div>
@@ -74,26 +74,57 @@ export default function App() {
     <div className="bg-gray-900 min-h-screen p-4 sm:p-6 lg:p-8 font-sans">
       <div className="max-w-4xl mx-auto bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
         <div className="p-6 sm:p-8">
+         <div className="mb-4 flex justify-between items-center">
           <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Product Admin Panel</h1>
+          <Link
+        to="/admin_order"
+        className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+      >
+        Order Panel
+      </Link>
+      </div>
           <p className="text-gray-400 mb-8">Fill in the details to add a new weighing scale product.</p>
 
           <form ref={formRef} onSubmit={handleSubmit} className="space-y-8">
 
             {/* Core Information */}
             <div className="p-6 border border-gray-700 rounded-xl">
-              <h2 className="text-xl font-semibold text-blue-400 mb-6">Core Information</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InputField label="Name" name="name" required />
-                <InputField label="Brand" name="brand" required />
-                <InputField label="Cateogry" name="category" required />
-                <InputField label="Model Number" name="modelNumber" />
-                <InputField label="Weighing Capacity" name="weighingCapacity" placeholder="e.g., 30KG" required />
-                <InputField label="Material" name="material" />
-                <InputField label="Color" name="color" />
-                <InputField label="Size" name="size" />
-                <TextAreaField label="Usage/Application" name="usageApplication" />
-              </div>
-            </div>
+  <h2 className="text-xl font-semibold text-blue-400 mb-6">Core Information</h2>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <InputField label="Name" name="name" required />
+    <InputField label="Brand" name="brand" required />
+
+    {/*  Category Dropdown */}
+    <div className="flex flex-col">
+      <label htmlFor="category" className="mb-1 font-medium text-gray-200">
+        Category
+      </label>
+      <select
+        id="category"
+        name="category"
+        required
+        className="border border-gray-600 bg-gray-800 text-gray-100 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        <option value="">Select Category</option>
+        <option value="Commercial Scales">Commercial Scales</option>
+        <option value="Industrial">Industrial</option>
+        <option value="Jewellery">Jewellery</option>
+        <option value="Lifestyle">Lifestyle</option>
+        <option value="Medical">Medical</option>
+        <option value="Retail">Retail</option>
+        <option value="Test Weights">Test Weights</option>
+        <option value="Waterproof">Waterproof</option>
+      </select>
+    </div>
+
+    <InputField label="Model Number" name="modelNumber" />
+    <InputField label="Weighing Capacity" name="weighingCapacity" placeholder="e.g., 30KG" required />
+    <InputField label="Material" name="material" />
+    <InputField label="Color" name="color" />
+    <InputField label="Size" name="size" />
+    <TextAreaField label="Usage/Application" name="usageApplication" />
+  </div>
+</div>
 
             {/* Technical Specifications */}
             <div className="p-6 border border-gray-700 rounded-xl">

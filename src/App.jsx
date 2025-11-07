@@ -10,6 +10,8 @@ import Admin from './components/Admin';
 import ProductList from "./components/ProductList";
 import ProductDetails from "./components/ProductDetails";
 import Admin_Order from "./components/Admin_Order";
+import PrivacyPolicy from "./components/privacypolicy";
+import TrackOrder from "./components/trackorder";
 import './App.css';
 
 function Home() {
@@ -44,7 +46,9 @@ export default function App() {
         <Route path="/admin_order" element={<Admin_Order />} />
         <Route path="/products" element={<ProductList />} />
          <Route path="/products/:id" element={<ProductDetails />} />
-
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+        <Route path="/trackorder" element={<TrackOrder />} />
+        
       </Routes>
     </Router>
   );

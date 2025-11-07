@@ -90,9 +90,23 @@ app.post("/api/products", async (req, res) => {
 
 // Get all products
 app.get("/api/getproducts", async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
+  try {
+    const { category } = req.query; 
+
+    let products;
+    if (category) {
+      products = await Product.find({ category });
+    } else {
+      products = await Product.find(); 
+    }
+
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
+
 
 
 app.get("/api/getproducts/:productId", async (req, res) => {

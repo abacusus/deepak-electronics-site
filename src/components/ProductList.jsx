@@ -1,18 +1,30 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import TopHeader from "./TopHeader";
 import Navbar from "./Navbar";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation(); // gives you access to ?query=params
 
   useEffect(() => {
-    fetch("/api/getproducts") 
+    // Extract query string
+    const query = new URLSearchParams(location.search);
+    const category = query.get("category"); 
+
+    
+    let apiUrl = "/api/getproducts";
+    if (category) {
+      apiUrl += `?category=${encodeURIComponent(category)}`;
+    }
+
+    // Fetch data
+    fetch(apiUrl)
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error(err));
-  }, []);
+  }, [location.search]); // 
 
   return (
     <>
