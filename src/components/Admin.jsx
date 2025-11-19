@@ -153,10 +153,35 @@ export default function App() {
                 <InputField label="Warranty" name="warranty" />
                 <InputField label="Deal In" name="dealIn" />
                 <div className="md:col-span-2">
-                  <TextAreaField label="Image URLs" name="images" />
+                  <TextAreaField label="Image URLs : seperate images using ," name="images" />
                 </div>
               </div>
             </div>
+
+            <div className="p-6 border border-gray-700 rounded-xl mt-6">
+  <h2 className="text-xl font-semibold text-blue-400 mb-6">About This Item (Leave Features Blank To Load Default)</h2>
+
+   <div className="md:col-span-2">
+      <InputField
+        label="Additional Description"
+        name="extraDescription"
+        placeholder="Write detailed information about this product..."
+        required
+      />
+    </div>
+
+  <div className="grid grid-cols-1 mt-2 md:grid-cols-2 gap-6">
+
+    <InputField label="Feature 1" name="feature1" />
+    <InputField label="Feature 2" name="feature2" />
+    <InputField label="Feature 3" name="feature3" />
+    <InputField label="Feature 4" name="feature4" />
+    <InputField label="Feature 5" name="feature5" />
+
+   
+  </div>
+</div>
+
 
             
             <div className="flex justify-end pt-4">

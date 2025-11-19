@@ -1,1 +1,37 @@
 @import "tailwindcss";
+html {
+  scroll-behavior: smooth;
+}
+
+
+@keyframes flickerGlow {
+  0%   {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(1px) brightness(1.8);
+  }
+  50%  {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(2);
+    filter: blur(2px) brightness(3);
+  }
+  100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(1px) brightness(1.8);
+  }
+}
+
+
+@keyframes driftMovement {
+  0%   { transform: translate(-50%, -50%) translate(0px, 0px); }
+  50%  { transform: translate(-50%, -50%) translate(var(--dx), var(--dy)); }
+  100% { transform: translate(-50%, -50%) translate(0px, 0px); }
+}
+
+
+.animate-firefly-move {
+  animation:
+    flickerGlow infinite ease-in-out,
+    driftMovement infinite ease-in-out;
+}

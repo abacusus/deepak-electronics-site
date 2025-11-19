@@ -43,6 +43,16 @@ const productSchema = new mongoose.Schema({
   batteryType: { type: String },
   size: { type: String },
 
+
+
+      feature1: { type: String, default: "" },
+    feature2: { type: String, default: "" },
+    feature3: { type: String, default: "" },
+    feature4: { type: String, default: "" },
+    feature5: { type: String, default: "" },
+
+    extraDescription: { type: String, default: "" },
+
   
   price: { type: Number, required: true },
   stock: { type: Number, default: 0 },

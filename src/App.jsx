@@ -12,6 +12,7 @@ import ProductDetails from "./components/ProductDetails";
 import Admin_Order from "./components/Admin_Order";
 import PrivacyPolicy from "./components/privacypolicy";
 import TrackOrder from "./components/trackorder";
+import RandomBackground from "./components/RandomBackground";
 import './App.css';
 
 function Home() {
@@ -48,6 +49,7 @@ export default function App() {
          <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
         <Route path="/trackorder" element={<TrackOrder />} />
+        <Route path="/randombackground" element={<RandomBackground />} />
         
       </Routes>
     </Router>

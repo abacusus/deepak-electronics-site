@@ -1,5 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import RandomBackground from "./RandomBackground";
+import TopHeader from "./TopHeader";
+import Navbar from "./Navbar";
+import Breadcrumb from "./Breadcrumb";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -86,155 +90,233 @@ export default function ProductDetails() {
   if (!product) return <p className="text-center mt-10">Product not found</p>;
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12">
-      <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
-        {product.name}
-      </h1>
-      <p className="text-gray-500 mb-10 text-lg">Category: {product.category}</p>
+<div className="relative w-full min-h-screen overflow-hidden">
+  <RandomBackground />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Images */}
-        <div>
-          <div className="w-full h-96 bg-gray-100 rounded-2xl flex items-center justify-center shadow">
-            <img
-              src={selectedImage}
-              alt={product.name}
-              className="max-h-96 object-contain rounded-lg"
-            />
-          </div>
+  <TopHeader />
+      <Navbar />
+      <Breadcrumb />
 
-          <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
-            {product.images?.map((img, i) => (
-              <img
-                key={i}
-                src={img}
-                alt={`${product.name}-${i}`}
-                className={`w-20 h-20 object-contain border-2 rounded-lg cursor-pointer transition ${
-                  selectedImage === img
-                    ? "border-indigo-600 shadow-lg"
-                    : "border-gray-200 hover:border-indigo-400"
-                }`}
-                onClick={() => setSelectedImage(img)}
-              />
-            ))}
-          </div>
+  <div className="max-w-7xl mx-auto px-6 py-12">
+   
+
+   <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+    
+      <div className="space-y-4">
+        <div className="w-full h-[450px] bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl shadow-2xl flex items-center justify-center">
+          <img
+            src={selectedImage}
+            alt={product.name}
+            className="max-h-[420px] object-contain rounded-xl"
+          />
         </div>
 
+        <div className="flex gap-3 overflow-x-auto pb-2">
+          {product.images?.map((img, i) => (
+            <img
+              key={i}
+              src={img}
+              alt=""
+              onClick={() => setSelectedImage(img)}
+              className={`w-24 h-24 object-contain cursor-pointer border rounded-xl transition-all duration-300 ${
+                selectedImage === img
+                  ? "border-purple-400 shadow-lg scale-105"
+                  : "border-white/30 hover:border-purple-300 hover:scale-105"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+   
+      <div className="space-y-6">
         
-        <div className="space-y-6">
-          
+      
+        <div className="bg-white/10 backdrop-blur-lg p-6 rounded-xl border border-white/20 shadow-xl text-white">
           <div className="flex items-center justify-between">
-            <p className="text-3xl font-bold text-indigo-600">
+            <p className="text-4xl font-extrabold text-purple-300 tracking-tight">
               ₹{product.price}
             </p>
-            <p
-              className={`text-sm font-medium px-3 py-1 rounded-full ${
+
+            <span
+              className={`px-4 py-1 rounded-full text-sm font-semibold ${
                 product.stock > 0
-                  ? "bg-green-100 text-green-600"
-                  : "bg-red-100 text-red-600"
+                  ? "bg-green-600/20 text-green-300 border border-green-400/30"
+                  : "bg-red-600/20 text-red-300 border border-red-400/30"
               }`}
             >
               {product.stock > 0
                 ? `In Stock (${product.stock})`
                 : "Out of Stock"}
-            </p>
+            </span>
           </div>
+        </div>
 
-          {product.description && (
-            <p className="text-gray-700 leading-relaxed">
-              {product.description}
-            </p>
+     
+        {product.description && (
+          <p className="text-white/80 text-lg leading-relaxed">
+            {product.description}
+          </p>
+        )}
+
+        <div className="grid grid-cols-2 gap-4 bg-white/10 p-6 rounded-xl border border-white/20 backdrop-blur-md shadow-xl text-gray-500">
+          {[
+            ["Weighing Capacity", product.weighingCapacity],
+            ["Brand", product.brand],
+            ["Usage", product.usageApplication],
+            ["Material", product.material],
+            ["Model", product.modelNumber],
+            ["Calibration", product.calibration],
+            ["Display", product.displayType],
+            ["Pan Size", product.panSize],
+            ["Accuracy", product.accuracy],
+            ["Automation", product.automationGrade],
+            ["Warranty", product.warranty],
+            ["Color", product.color],
+            ["Battery", product.batteryType],
+            ["Size", product.size],
+            ["Digits", product.numberOfDigits],
+            ["Power", product.powerSupply],
+          ].map(
+            ([label, value], i) =>
+              value && (
+                <p key={i} className="text-sm">
+                  <span className="font-semibold text-purple-300">
+                    {label}:
+                  </span>{" "}
+                  {value}
+                </p>
+              )
           )}
+        </div>
 
-          {/* Specs */}
-          <div className="grid grid-cols-2 gap-4 text-gray-700 text-sm">
-            <p><span className="font-semibold">Weighing Capacity:</span> {product.weighingCapacity}</p>
-            <p><span className="font-semibold">Brand:</span> {product.brand}</p>
-            <p><span className="font-semibold">Usage:</span> {product.usageApplication}</p>
-            <p><span className="font-semibold">Material:</span> {product.material}</p>
-            <p><span className="font-semibold">Model:</span> {product.modelNumber}</p>
-            <p><span className="font-semibold">Calibration:</span> {product.calibration}</p>
-            <p><span className="font-semibold">Display:</span> {product.displayType}</p>
-            <p><span className="font-semibold">Pan Size:</span> {product.panSize}</p>
-            <p><span className="font-semibold">Accuracy:</span> {product.accuracy}</p>
-            <p><span className="font-semibold">Automation:</span> {product.automationGrade}</p>
-            <p><span className="font-semibold">Warranty:</span> {product.warranty}</p>
-            <p><span className="font-semibold">Color:</span> {product.color}</p>
-            <p><span className="font-semibold">Battery:</span> {product.batteryType}</p>
-            <p><span className="font-semibold">Size:</span> {product.size}</p>
-            <p><span className="font-semibold">Digits:</span> {product.numberOfDigits}</p>
-            <p><span className="font-semibold">Power:</span> {product.powerSupply}</p>
-          </div>
+        
+        <button
+          disabled={product.stock <= 0}
+          onClick={() => setShowPopup(true)}
+          className={`mt-6 w-full py-4 text-xl font-bold rounded-xl shadow-xl transition-all duration-300 ${
+            product.stock > 0
+              ? "bg-purple-400 text-black hover:bg-purple-300 hover:scale-[1.03]"
+              : "bg-gray-500 text-gray-300 cursor-not-allowed"
+          }`}
+        >
+          {product.stock > 0 ? "⚡ Order Now" : "Out of Stock"}
+        </button>
+      </div>
+    </div>
 
-          {/* CTA */}
+
+    <div className="mt-14 bg-white/10 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-white/20">
+      <h2 className="text-3xl font-bold text-white mb-4">About This Item</h2>
+
+      {product.extraDescription && (
+        <p className="text-white/80 text-lg mb-5">{product.extraDescription}</p>
+      )}
+
+      <ul className="space-y-3 text-white/90 text-lg">
+        {(product.feature1 ||
+          product.feature2 ||
+          product.feature3 ||
+          product.feature4 ||
+          product.feature5) ? (
+          <>
+            {["feature1","feature2","feature3","feature4","feature5"].map(
+              (f, i) =>
+                product[f] && (
+                  <li key={i} className="flex gap-2">
+                    <span className="text-purple-300 text-xl">•</span>
+                    {product[f]}
+                  </li>
+                )
+            )}
+          </>
+        ) : (
+          <>
+            <li className="flex gap-2">
+              <span className="text-purple-300 text-xl">•</span>
+              High-quality material designed for long-term use.
+            </li>
+            <li className="flex gap-2">
+              <span className="text-purple-300 text-xl">•</span>
+              Smooth performance with fast processing.
+            </li>
+            <li className="flex gap-2">
+              <span className="text-purple-300 text-xl">•</span>
+              Lightweight and easy to use.
+            </li>
+            <li className="flex gap-2">
+              <span className="text-purple-300 text-xl">•</span>
+              Ideal for professional & daily tasks.
+            </li>
+            <li className="flex gap-2">
+              <span className="text-purple-300 text-xl">•</span>
+              Backed by reliable support and warranty.
+            </li>
+          </>
+        )}
+      </ul>
+    </div>
+  </div>
+
+  
+  {showPopup && (
+    <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50 p-4">
+      <div className="bg-white rounded-2xl p-8 w-full max-w-lg shadow-2xl animate-fadeIn">
+        <h2 className="text-2xl font-bold mb-4">Order {product.name}</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            ["name", "Full Name"],
+            ["email", "Email"],
+            ["mobile", "Mobile No."],
+            ["alternateMobile", "Alternate No."],
+            ["houseNo", "House No."],
+            ["streetNo", "Street No."],
+            ["landmark", "Landmark"],
+            ["town", "Town"],
+            ["district", "District"],
+            ["state", "State"],
+            ["pincode", "Pincode"],
+          ].map(([name, placeholder]) => (
+            <input
+              key={name}
+              name={name}
+              placeholder={placeholder}
+              onChange={handleChange}
+              className="p-3 border rounded-lg focus:ring-2 focus:ring-purple-400"
+            />
+          ))}
+
+          <input
+            type="number"
+            name="quantity"
+            value={formData.quantity}
+            min="1"
+            onChange={handleChange}
+            className="p-3 border rounded-lg"
+          />
+        </div>
+
+        <div className="flex justify-end gap-4 mt-6">
           <button
-            disabled={product.stock <= 0}
-            onClick={() => setShowPopup(true)}
-            className={`mt-6 w-full py-3 text-lg font-black rounded-xl shadow-lg transition-transform duration-200 
-              ${
-                product.stock > 0
-                  ? "bg-indigo-500 text-white hover:bg-indigo-600 hover:scale-105"
-                  : "bg-red-300 text-gray-500 cursor-not-allowed"
-              }`}
+            onClick={() => setShowPopup(false)}
+            className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
           >
-            {product.stock > 0 ? "🛒 Order Now" : "Out of Stock"}
+            Cancel
+          </button>
+
+          <button
+            onClick={handleSubmit}
+            className="px-4 py-2 bg-purple-400 text-black font-semibold rounded-lg hover:bg-purple-300"
+          >
+            Confirm Order
           </button>
         </div>
       </div>
-
-      {/*  Popup  */}
-      {showPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 overflow-y-auto">
-          <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg">
-            <h2 className="text-2xl font-bold mb-4">
-              Order {product.name}
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-              <input name="name" placeholder="Full Name" className="border p-2 rounded"
-                onChange={handleChange} />
-              <input name="email" type="email" placeholder="Email" className="border p-2 rounded"
-                onChange={handleChange} />
-              <input name="mobile" placeholder="Mobile No." className="border p-2 rounded"
-                onChange={handleChange} />
-              <input name="alternateMobile" placeholder="Alternate No." className="border p-2 rounded"
-                onChange={handleChange} />
-              <input name="houseNo" placeholder="House No." className="border p-2 rounded"
-                onChange={handleChange} />
-              <input name="streetNo" placeholder="Street No." className="border p-2 rounded"
-                onChange={handleChange} />
-              <input name="landmark" placeholder="Landmark" className="border p-2 rounded"
-                onChange={handleChange} />
-              <input name="town" placeholder="Town/College" className="border p-2 rounded"
-                onChange={handleChange} />
-              <input name="district" placeholder="District" className="border p-2 rounded"
-                onChange={handleChange} />
-              <input name="state" placeholder="State" className="border p-2 rounded"
-                onChange={handleChange} />
-              <input name="pincode" placeholder="Pincode" className="border p-2 rounded"
-                onChange={handleChange} />
-              <input type="number" name="quantity" value={formData.quantity} min="1"
-                placeholder="Quantity" className="border p-2 rounded"
-                onChange={handleChange} />
-            </div>
-
-            <div className="flex justify-end gap-4 mt-6">
-              <button
-                onClick={() => setShowPopup(false)}
-                className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSubmit}
-                className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600"
-              >
-                Confirm Order
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
+  )}
+</div>
+
   );
 }

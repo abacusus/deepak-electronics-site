@@ -5,6 +5,7 @@ const Footer = () => {
     <footer
       className="relative text-white"
       style={{ backgroundColor: "#7569E0" }}
+      id = "footer"
     >
       {/* Curved waves */}
       <div className="absolute -top-16 left-0 w-full overflow-hidden pointer-events-none">

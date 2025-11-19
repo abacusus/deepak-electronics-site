@@ -31,11 +31,11 @@ export default function Navbar() {
     },
     { name: "Systems & Solutions", href: "#" },
     { name: "Gallery", href: "#" },
-    { name: "About Us", href: "#" },
+    { name: "About Us", href: "#footer" },
     { name: "Service", href: "#" },
     { name: "Product Video", href: "#" },
     { name: "Blog", href: "#" },
-    { name: "Contact Us", href: "#" },
+    { name: "Contact Us", href: "#footer" },
     { name: "Track Your Order", href: "/trackorder" },
   ];
 
