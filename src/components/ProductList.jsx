@@ -3,8 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import TopHeader from "./TopHeader";
 import Navbar from "./Navbar";
 import RandomBackground from "./RandomBackground";
-import { Import } from "lucide-react";
-import Breadcrumb from "./Breadcrumb";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
@@ -40,7 +38,7 @@ export default function ProductList() {
             <RandomBackground />
             <TopHeader />
       <Navbar />
-              <Breadcrumb />
+              
       
        
        

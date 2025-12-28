@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import RandomBackground from "./RandomBackground";
 import TopHeader from "./TopHeader";
 import Navbar from "./Navbar";
-import Breadcrumb from "./Breadcrumb";
+
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -28,19 +28,67 @@ export default function ProductDetails() {
     quantity: 1,
   });
 
-  useEffect(() => {
-    fetch(`/api/getproducts/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProduct(data);
-        setSelectedImage(data.images?.[0] || null);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, [id]);
+
+
+  function injectSchema(schema) {
+  // Remove old schema
+  const old = document.querySelector(
+    'script[type="application/ld+json"]'
+  );
+  if (old) old.remove();
+
+  // Inject new schema
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.textContent = JSON.stringify(schema);
+
+  document.head.appendChild(script);
+  
+}
+
+useEffect(() => {
+  fetch(`/api/getproducts/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+    
+      setProduct(data.product);
+      setSelectedImage(data.product.images?.[0] || null);
+
+      // schema 
+      if (data.schema) {
+        injectSchema(data.schema);
+      }
+
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error(err);
+      setLoading(false);
+    });
+}, [id]);
+
+
+
+// meta and title injector
+
+useEffect(() => {
+  if (!product) return;
+
+  document.title = `${product.name} – Deepak Electronics`;
+
+  let meta = document.querySelector('meta[name="description"]');
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.name = "description";
+    document.head.appendChild(meta);
+  }
+  meta.content = product.extraDescription;
+}, [product]);
+
+
+
+
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -90,12 +138,20 @@ export default function ProductDetails() {
   if (!product) return <p className="text-center mt-10">Product not found</p>;
 
   return (
+
+
+    
 <div className="relative w-full min-h-screen overflow-hidden">
+
+
+
+
+
+
   <RandomBackground />
 
   <TopHeader />
       <Navbar />
-      <Breadcrumb />
 
   <div className="max-w-7xl mx-auto px-6 py-12">
    
@@ -193,6 +249,7 @@ export default function ProductDetails() {
 
         
         <button
+          
           disabled={product.stock <= 0}
           onClick={() => setShowPopup(true)}
           className={`mt-6 w-full py-4 text-xl font-bold rounded-xl shadow-xl transition-all duration-300 ${

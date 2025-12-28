@@ -121,9 +121,36 @@ app.get("/api/getproducts", async (req, res) => {
 
 app.get("/api/getproducts/:productId", async (req, res) => {
   try {
+     
     const product = await Product.findOne({ productId: req.params.productId });
+    const schema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.name,
+    "description": product.description,
+    "image": product.images[0],
+    "brand": {
+      "@type": "Brand",
+      "name": product.brand
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": product.price,
+      "priceCurrency": "INR",
+      "availability": product.inStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      "url": `https://yourdomain.com/product/${product.productId}`
+    }
+  };
+
     if (!product) return res.status(404).json({ error: "Product not found" });
-    res.json(product);
+    res.json({product,schema});
+
+
+    
+
+    
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -131,7 +158,7 @@ app.get("/api/getproducts/:productId", async (req, res) => {
 
 // Place order 
 app.post("/api/orders", async (req, res) => {
-  const orderId = uuidv4().slice(0, 8); // short tracking code
+  const orderId = uuidv4().slice(0, 8); 
   const order = new Order({ orderId, ...req.body });
   await order.save();
   res.json({ message: "Order placed!", orderId });
