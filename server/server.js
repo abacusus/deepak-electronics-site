@@ -89,6 +89,19 @@ const OrderSchema = new mongoose.Schema({
 const Order = mongoose.model("Order", OrderSchema);
 
 
+const ProductVidSchema = new mongoose.Schema({
+  videoId: { type: String, unique: true, default: uuidv4 }, //  UUID
+  title: { type: String, required: true },
+  productlink: { type: String ,required: true},
+  videolink: { type: String ,required: true},
+  createdAt: { type: Date, default: Date.now },
+  description: { type: String, required: true }
+
+});
+
+const ProductVid = mongoose.model("ProductVid", ProductVidSchema);
+
+
 // Routes
 
 // Add product (admin)
@@ -97,6 +110,16 @@ app.post("/api/products", async (req, res) => {
   await product.save();
   res.json(product);
 });
+
+
+// Add productvid (admin)
+app.post("/api/productvid", async (req, res) => {
+  const productvid = new ProductVid(req.body);
+  await productvid.save();
+  res.json(productvid);
+});
+
+
 
 // Get all products
 app.get("/api/getproducts", async (req, res) => {
@@ -176,6 +199,18 @@ app.get("/api/getorders", async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
     res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+// Fetch Product Videos
+
+app.get("/api/productvid", async (req, res) => {
+  try {
+    const productvids = await ProductVid.find().sort({ createdAt: -1 });
+    res.json(productvids);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

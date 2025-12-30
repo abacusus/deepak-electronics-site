@@ -35,6 +35,14 @@ export default function Admin_Order() {
       >
         Product Panel
       </Link>
+
+
+        <Link
+        to="/admin_video"
+        className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+      >
+        Video Panel
+      </Link>
       </div>
 
       <table className="w-full border">

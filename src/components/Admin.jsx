@@ -82,6 +82,14 @@ export default function App() {
       >
         Order Panel
       </Link>
+
+      <Link
+        to="/admin_video"
+        className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+      >
+        Video Panel
+      </Link>
+
       </div>
           <p className="text-gray-400 mb-8">Fill in the details to add a new weighing scale product.</p>
 

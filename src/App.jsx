@@ -13,7 +13,10 @@ import Admin_Order from "./components/Admin_Order";
 import PrivacyPolicy from "./components/privacypolicy";
 import TrackOrder from "./components/trackorder";
 import RandomBackground from "./components/RandomBackground";
+import ProductVid from "./components/ProductVid";
+import Admin_Vid from "./components/Admin_Vid";
 import './App.css';
+
 
 function Home() {
   return (
@@ -50,6 +53,8 @@ export default function App() {
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
         <Route path="/trackorder" element={<TrackOrder />} />
         <Route path="/randombackground" element={<RandomBackground />} />
+        <Route path="/productvideo" element={<ProductVid />} />
+        <Route path="/admin_video" element={<Admin_Vid />} />
         
       </Routes>
     </Router>

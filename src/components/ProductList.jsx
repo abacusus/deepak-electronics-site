@@ -13,6 +13,7 @@ export default function ProductList() {
   
     const query = new URLSearchParams(location.search);
     const category = query.get("category"); 
+    document.title = `${category} – Deepak Electronics`;
 
     
     let apiUrl = "/api/getproducts";
@@ -25,7 +26,13 @@ export default function ProductList() {
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error(err));
-  }, [location.search]); // 
+  }, [location.search]); 
+
+
+
+
+
+
 
   return (
     
