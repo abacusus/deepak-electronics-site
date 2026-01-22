@@ -1,11 +1,26 @@
 import React from "react";
 
+const TopHeader = () => {
+  return (
+    <div
+      className="top-header sticky top-0 z-50 overflow-hidden h-10 text-white flex items-center justify-between font-semibold shadow-md"
+      style={{ backgroundColor: "#7569E0" }}
+    >
+      {/* Content for TopHeader can go here */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between items-center">
+        <p className="text-sm">Welcome to Deepak Electronics!</p>
+        <p className="text-sm">Call us: +91 97170 99170</p>
+      </div>
+    </div>
+  );
+};   //idk this is changed by antigravity
+
 const Footer = () => {
   return (
     <footer
       className="relative text-white"
       style={{ backgroundColor: "#7569E0" }}
-      id = "footer"
+      id="footer"
     >
       {/* Curved waves */}
       <div className="absolute -top-16 left-0 w-full overflow-hidden pointer-events-none">
@@ -35,8 +50,8 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold tracking-tight">Deepak Electronics</h3>
             <p className="mt-3 text-white/90 text-sm leading-relaxed">
-              Quality you can trust. We craft delightful experiences with
-              attention to detail and a sprinkle of magic.
+              Precision and reliability you can trust. Leading provider of
+              advanced weighing solutions for business and home.
             </p>
           </div>
 
@@ -86,7 +101,7 @@ const Footer = () => {
                   href="tel:+919717099170"
                   className="hover:underline hover:text-yellow-200"
                 >
-                 +91 97170 99170
+                  +91 97170 99170
                 </a>
               </li>
               <li className="text-white/90"> Garhi, Gurugram, India</li>
@@ -118,7 +133,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-10 border-t border-white/20 pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/80">
-          <p>© {new Date().getFullYear()} Your Brand. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Deepak Electronics. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <a href="/privacypolicy" className="hover:underline hover:text-yellow-200">
               Privacy

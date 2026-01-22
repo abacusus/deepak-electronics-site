@@ -3,9 +3,9 @@ import React from 'react'
 const TopHeader = () => {
   return (
     <div
-  className="top-header sticky top-0 z-50 overflow-hidden h-14 text-white flex items-center justify-between font-semibold"
-  style={{ backgroundColor: "#7569E0" }}
->
+      className="top-header sticky top-0 z-50 overflow-hidden h-10 text-white flex items-center justify-between font-semibold shadow-md"
+      style={{ backgroundColor: "#7569E0" }}
+    >
       <style>
         {`
          @keyframes fadeInOut {
@@ -47,7 +47,7 @@ const TopHeader = () => {
         </div>
 
 
-          {/* Mobile-No. */}
+        {/* Mobile-No. */}
         <div className="fadeOutIn absolute flex items-center gap-2">
           <lord-icon
             src="https://cdn.lordicon.com/nnzfcuqw.json"
@@ -59,14 +59,14 @@ const TopHeader = () => {
           <span className="px-2  sm:max-w-none">
             Call: <a href="tel:+919717099170">+91 97170 99170</a>
           </span>
-        </div> 
+        </div>
       </div>
 
-      
 
-      
 
-      
+
+
+
       <div className="ml-auto flex items-center gap-3 sm:gap-4">
         {/* social media */}
         <div className="hidden sm:flex gap-2">
@@ -80,7 +80,7 @@ const TopHeader = () => {
 
         {/* Call me back  */}
         <button
-          
+
           className="hidden sm:flex items-center border border-white rounded-2xl px-2 sm:px-3 py-1 cursor-pointer 
              hover:bg-white hover:text-violet-700 transition-colors text-xs sm:text-sm flex-shrink-0"
         >
