@@ -22,7 +22,7 @@ const productSchema = new mongoose.Schema({
   productId: { type: String, unique: true, default: uuidv4 }, //  UUID
   name: { type: String, required: true },
   weighingCapacity: { type: String, required: true },
-  category: { type: String, required:true},
+  category: { type: String, required: true },
   brand: { type: String, required: true },
   usageApplication: { type: String },
   material: { type: String },
@@ -45,15 +45,15 @@ const productSchema = new mongoose.Schema({
 
 
 
-      feature1: { type: String, default: "" },
-    feature2: { type: String, default: "" },
-    feature3: { type: String, default: "" },
-    feature4: { type: String, default: "" },
-    feature5: { type: String, default: "" },
+  feature1: { type: String, default: "" },
+  feature2: { type: String, default: "" },
+  feature3: { type: String, default: "" },
+  feature4: { type: String, default: "" },
+  feature5: { type: String, default: "" },
 
-    extraDescription: { type: String, default: "" },
+  extraDescription: { type: String, default: "" },
+  description: { type: String, default: "" },
 
-  
   price: { type: Number, required: true },
   stock: { type: Number, default: 0 },
   images: [{ type: String }],
@@ -92,8 +92,8 @@ const Order = mongoose.model("Order", OrderSchema);
 const ProductVidSchema = new mongoose.Schema({
   videoId: { type: String, unique: true, default: uuidv4 }, //  UUID
   title: { type: String, required: true },
-  productlink: { type: String ,required: true},
-  videolink: { type: String ,required: true},
+  productlink: { type: String, required: true },
+  videolink: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   description: { type: String, required: true }
 
@@ -124,16 +124,22 @@ app.post("/api/productvid", async (req, res) => {
 // Get all products
 app.get("/api/getproducts", async (req, res) => {
   try {
-    const { category } = req.query; 
+    const { category } = req.query;
 
     let products;
     if (category) {
-      products = await Product.find({ category });
+      products = await Product.find({ category }).lean();
     } else {
-      products = await Product.find(); 
+      products = await Product.find().lean();
     }
 
-    res.json(products);
+    // Attach order counts
+    const productsWithOrders = await Promise.all(products.map(async (p) => {
+      const orderCount = await Order.countDocuments({ productId: p.productId });
+      return { ...p, orderCount };
+    }));
+
+    res.json(productsWithOrders);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -144,36 +150,37 @@ app.get("/api/getproducts", async (req, res) => {
 
 app.get("/api/getproducts/:productId", async (req, res) => {
   try {
-     
+
     const product = await Product.findOne({ productId: req.params.productId });
-    const schema = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": product.name,
-    "description": product.description,
-    "image": product.images[0],
-    "brand": {
-      "@type": "Brand",
-      "name": product.brand
-    },
-    "offers": {
-      "@type": "Offer",
-      "price": product.price,
-      "priceCurrency": "INR",
-      "availability": product.inStock
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
-      "url": `https://yourdomain.com/product/${product.productId}`
-    }
-  };
 
     if (!product) return res.status(404).json({ error: "Product not found" });
-    res.json({product,schema});
+
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": product.name,
+      "description": product.description || product.extraDescription,
+      "image": product.images?.[0] || "",
+      "brand": {
+        "@type": "Brand",
+        "name": product.brand
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": product.price,
+        "priceCurrency": "INR",
+        "availability": product.stock > 0
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+        "url": `https://yourdomain.com/product/${product.productId}`
+      }
+    };
+
+    res.json({ product, schema });
 
 
-    
 
-    
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -181,7 +188,7 @@ app.get("/api/getproducts/:productId", async (req, res) => {
 
 // Place order 
 app.post("/api/orders", async (req, res) => {
-  const orderId = uuidv4().slice(0, 8); 
+  const orderId = uuidv4().slice(0, 8);
   const order = new Order({ orderId, ...req.body });
   await order.save();
   res.json({ message: "Order placed!", orderId });
@@ -211,6 +218,32 @@ app.get("/api/productvid", async (req, res) => {
   try {
     const productvids = await ProductVid.find().sort({ createdAt: -1 });
     res.json(productvids);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Update product (admin)
+app.put("/api/products/:productId", async (req, res) => {
+  try {
+    const product = await Product.findOneAndUpdate(
+      { productId: req.params.productId },
+      req.body,
+      { new: true }
+    );
+    if (!product) return res.status(404).json({ error: "Product not found" });
+    res.json(product);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Delete product (admin)
+app.delete("/api/products/:productId", async (req, res) => {
+  try {
+    const product = await Product.findOneAndDelete({ productId: req.params.productId });
+    if (!product) return res.status(404).json({ error: "Product not found" });
+    res.json({ message: "Product deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
