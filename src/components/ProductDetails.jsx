@@ -82,6 +82,7 @@ export default function ProductDetails() {
     state: "",
     pincode: "",
     quantity: 1,
+    paymentMethod: "Cash",
   });
 
   function injectSchema(schema) {
@@ -126,33 +127,79 @@ export default function ProductDetails() {
   };
 
   const handleSubmit = async () => {
-    const orderData = {
-      productId: product.productId,
-      productName: product.name,
-      quantity: formData.quantity,
-      address: { ...formData },
-    };
+    const totalAmount = product.price * formData.quantity;
 
-    try {
+    // CASH ORDER
+    if (formData.paymentMethod === "Cash") {
+      const orderData = {
+        productId: product.productId,
+        productName: product.name,
+        quantity: formData.quantity,
+        paymentMethod: "Cash",
+        paymentStatus: "Pending",
+        address: { ...formData },
+      };
+
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        showAlert(`Order placed successfully! Order ID: ${data.orderId}`, "success");
-        setShowPopup(false);
-        setFormStep(1);
-      } else {
-        showAlert("Failed to place order. Please check your details.", "error");
+      const data = await res.json();
+      showAlert(`Order placed! ID: ${data.orderId}`, "success");
+      setShowPopup(false);
+    }
+
+    // ONLINE PAYMENT
+    else {
+      const razorOrder = await fetch("/api/create-razorpay-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: totalAmount }),
+      });
+
+      const razorData = await razorOrder.json();
+
+      const options = {
+        key: "rzp_test_SFdTe4quEbZtoc",
+        amount: razorData.amount,
+        currency: razorData.currency,
+        order_id: razorData.id,
+
+        handler: async function (response) {
+          const orderData = {
+            productId: product.productId,
+            productName: product.name,
+            quantity: formData.quantity,
+            paymentMethod: "Online",
+            paymentStatus: "Paid",
+            razorpayOrderId: response.razorpay_order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            address: { ...formData },
+          };
+
+          const res = await fetch("/api/orders", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderData),
+          });
+
+          const data = await res.json();
+          showAlert(`Payment Successful! Order ID: ${data.orderId}`, "success");
+          setShowPopup(false);
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      if (!window.Razorpay) {
+        alert("Razorpay SDK not loaded. Please refresh page.");
+        return;
       }
-    } catch (error) {
-      console.error(error);
-      showAlert("Something went wrong. Please try again later.", "error");
+      rzp.open();
     }
   };
+
 
   if (loading) return (
     <div className="relative w-full min-h-screen bg-slate-50">
@@ -506,6 +553,36 @@ export default function ProductDetails() {
                           <input name="pincode" value={formData.pincode} onChange={handleChange} placeholder="122001" className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-indigo-50 focus:border-indigo-600 transition-all outline-none font-medium" />
                         </div>
                       </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-400 uppercase ml-1">
+                          Payment Method
+                        </label>
+
+                        <div className="flex gap-4">
+                          <button
+                            type="button"
+                            onClick={() => setFormData(prev => ({ ...prev, paymentMethod: "Cash" }))}
+                            className={`flex-1 py-3 rounded-xl border ${formData.paymentMethod === "Cash"
+                              ? "bg-indigo-600 text-white"
+                              : "bg-white"
+                              }`}
+                          >
+                            Cash on Delivery
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => setFormData(prev => ({ ...prev, paymentMethod: "Online" }))}
+                            className={`flex-1 py-3 rounded-xl border ${formData.paymentMethod === "Online"
+                              ? "bg-indigo-600 text-white"
+                              : "bg-white"
+                              }`}
+                          >
+                            Online Payment
+                          </button>
+                        </div>
+                      </div>
+
                     </div>
                     <div className="flex gap-4">
                       <button

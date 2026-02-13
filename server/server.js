@@ -2,20 +2,30 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
+import Razorpay from "razorpay";
 import { v4 as uuidv4 } from "uuid";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+dotenv.config();
 
 //  MongoDB
 mongoose.connect(
-  "mongodb+srv://naman:naman@cluster0.wfqx2hc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+  "mongodb+srv://deepakguptabca:deepakguptabca@depak.ozxpibl.mongodb.net/?appName=depak",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }
 );
+
+
+// razorpay payment gateway keys 
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 // Schemas
 const productSchema = new mongoose.Schema({
@@ -67,6 +77,12 @@ const OrderSchema = new mongoose.Schema({
   productId: { type: String, required: true }, // product id
   productName: { type: String, required: true }, // product name
   quantity: { type: Number, required: true }, //  quantity
+
+  
+  paymentMethod: { type: String, required: true }, // "Cash" or "Online"
+  paymentStatus: { type: String, default: "Pending" }, // Pending, Paid, Failed
+  razorpayOrderId: { type: String },
+  razorpayPaymentId: { type: String },
 
   address: {
     name: { type: String, required: true },
@@ -178,9 +194,6 @@ app.get("/api/getproducts/:productId", async (req, res) => {
 
     res.json({ product, schema });
 
-
-
-
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -189,10 +202,36 @@ app.get("/api/getproducts/:productId", async (req, res) => {
 // Place order 
 app.post("/api/orders", async (req, res) => {
   const orderId = uuidv4().slice(0, 8);
-  const order = new Order({ orderId, ...req.body });
+
+  const order = new Order({
+    orderId,
+    ...req.body,
+  });
+
   await order.save();
   res.json({ message: "Order placed!", orderId });
 });
+
+
+// Create Razorpay Order
+app.post("/api/create-razorpay-order", async (req, res) => {
+  try {
+    const { amount } = req.body;
+
+    const options = {
+      amount: amount * 100, // Razorpay works in paise
+      currency: "INR",
+      receipt: "receipt_" + Date.now(),
+    };
+
+    const order = await razorpay.orders.create(options);
+
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 // Track order
 app.get("/api/orders/:orderId", async (req, res) => {
