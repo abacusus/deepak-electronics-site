@@ -323,9 +323,9 @@ export default function Admin() {
                         ))}
                       </div>
                     ) : (
-                      <div className="flex flex-col items-center justify-center p-12 border-2 border-dashed border-slate-700/50 rounded-[2rem] text-slate-600">
+                      <div className="flex flex-col items-center justify-center p-12 border-2 border-dashed border-slate-700/50 rounded-[2rem] text-slate-400">
                         <ImageIcon className="w-10 h-10 mb-2 opacity-20" />
-                        <p className="text-[13px] font-bold">No images added</p>
+                        <p className="text-indigo-600 font-bold">No images added</p>
                       </div>
                     )}
                   </div>
@@ -381,7 +381,7 @@ export default function Admin() {
                 placeholder="Lookup product by name..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-white/5 border border-slate-700/50 rounded-[2rem] py-4 pl-16 pr-8 text-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/30 transition-all font-medium placeholder:text-slate-600"
+                className="w-full bg-white/5 border border-slate-700/50 rounded-[2rem] py-4 pl-16 pr-8 text-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/30 transition-all font-medium placeholder:text-slate-400"
               />
             </div>
           </div>

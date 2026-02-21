@@ -17,7 +17,7 @@ export default function BigSearchBar({
   const [highlight, setHighlight] = useState(-1);
   const inputRef = useRef(null);
   const listRef = useRef(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const normalized = useMemo(() =>
     suggestions.map((s) =>
@@ -41,7 +41,7 @@ export default function BigSearchBar({
     setOpen(false);
     setHighlight(-1);
     onSearch?.(q);
-    navigate(`/products?q=${encodeURIComponent(q)}`); 
+    navigate(`/products?q=${encodeURIComponent(q)}`);
   };
 
 
@@ -99,7 +99,7 @@ export default function BigSearchBar({
           />
 
           {query && (
-            <button 
+            <button
               type="button"
               aria-label="Clear search"
               className="p-2 rounded-full hover:bg-gray-100 text-gray-500"
@@ -126,7 +126,7 @@ export default function BigSearchBar({
           <button
             type="button"
             onClick={() => commitSearch()}
-            
+
             className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-sm md:text-base font-semibold px-4 md:px-5 py-2 md:py-2.5 rounded-2xl disabled:opacity-50"
             disabled={loading}
           >
@@ -148,13 +148,13 @@ export default function BigSearchBar({
                 <button
                   role="option"
                   aria-selected={i === highlight}
-                  className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-indigo-50 ${
-                    i === highlight ? "bg-indigo-50" : ""
-                  }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-indigo-50 ${i === highlight ? "bg-indigo-50" : ""
+                    }`}
                   onMouseEnter={() => setHighlight(i)}
-                  onClick={() => {commitSearch(s.value)
-                   
-              }}                  
+                  onClick={() => {
+                    commitSearch(s.value)
+
+                  }}
                 >
                   <Search className="w-4 h-4 text-gray-400" />
                   <span className="text-gray-800">{s.label}</span>
@@ -165,7 +165,7 @@ export default function BigSearchBar({
         )}
       </div>
 
-      
+
       <p className="mt-3 text-center text-sm text-gray-500">
         Tip: Press <kbd className="px-1 py-0.5 rounded bg-gray-100 border">/</kbd> to focus, <kbd className="px-1 py-0.5 rounded bg-gray-100 border">Enter</kbd> to search
       </p>

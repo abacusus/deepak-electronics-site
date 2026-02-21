@@ -1,30 +1,21 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
+import {
+  CheckCircle2,
+  XCircle,
+  AlertTriangle,
+  Info,
+  X
+} from "lucide-react";
 
 const AlertContext = createContext(null);
 
 export const useAlert = () => useContext(AlertContext);
 
 const ICONS = {
-  success: (
-    <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-    </svg>
-  ),
-  error: (
-    <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-    </svg>
-  ),
-  warning: (
-    <svg className="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-    </svg>
-  ),
-  info: (
-    <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  ),
+  success: <CheckCircle2 className="w-6 h-6 text-emerald-400" />,
+  error: <XCircle className="w-6 h-6 text-rose-400" />,
+  warning: <AlertTriangle className="w-6 h-6 text-amber-400" />,
+  info: <Info className="w-6 h-6 text-indigo-400" />,
 };
 
 export function AlertProvider({ children }) {
@@ -36,7 +27,7 @@ export function AlertProvider({ children }) {
     setTimeout(() => {
       setAlert(null);
       setIsExiting(false);
-    }, 400); // Match animation duration
+    }, 400);
   }, []);
 
   const showAlert = useCallback((message, type = "info", duration = 5000) => {
@@ -50,9 +41,12 @@ export function AlertProvider({ children }) {
   }, [closeAlert]);
 
   useEffect(() => {
-    // Override browser alert
     window.alert = (message) => {
       showAlert(message, "info");
+    };
+    // Global injection for programmatic triggers
+    window.showCustomAlert = (message, type = "info", duration = 5000) => {
+      showAlert(message, type, duration);
     };
   }, [showAlert]);
 
@@ -61,14 +55,20 @@ export function AlertProvider({ children }) {
       {children}
 
       {alert && (
-        <div className={`fixed top-6 right-6 z-[9999] w-full max-w-sm ml-auto mr-auto sm:mr-0 ${isExiting ? 'animate-slideOutRight' : 'animate-slideInRight'}`}>
-          <div className="glass rounded-2xl shadow-2xl overflow-hidden border border-white/10 relative">
+        <div className={`fixed top-6 right-6 z-[9999] w-full max-w-sm ml-auto mr-auto sm:mr-0 px-4 sm:px-0 ${isExiting ? 'animate-slideOutRight' : 'animate-slideInRight'}`}>
+          <div className={`
+            relative overflow-hidden rounded-[2rem] border backdrop-blur-2xl shadow-2xl transition-all duration-300
+            ${alert.type === 'success' ? 'bg-emerald-950/40 border-emerald-500/20 shadow-emerald-500/10' :
+              alert.type === 'error' ? 'bg-rose-950/40 border-rose-500/20 shadow-rose-500/10' :
+                alert.type === 'warning' ? 'bg-amber-950/40 border-amber-500/20 shadow-amber-500/10' :
+                  'bg-slate-900/60 border-white/10 shadow-indigo-500/10'}
+          `}>
             {/* Progress bar */}
             <div
-              className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r ${alert.type === 'success' ? 'from-green-500 to-emerald-400' :
-                  alert.type === 'error' ? 'from-red-600 to-pink-500' :
-                    alert.type === 'warning' ? 'from-amber-500 to-orange-400' :
-                      'from-blue-500 to-indigo-400'
+              className={`absolute bottom-0 left-0 h-1.5 bg-gradient-to-r opacity-50 ${alert.type === 'success' ? 'from-emerald-500 to-teal-400' :
+                alert.type === 'error' ? 'from-rose-500 to-pink-500' :
+                  alert.type === 'warning' ? 'from-amber-500 to-yellow-400' :
+                    'from-indigo-500 to-purple-400'
                 }`}
               style={{
                 animation: 'progressBar 5s linear forwards',
@@ -76,31 +76,35 @@ export function AlertProvider({ children }) {
               }}
             />
 
-            <div className="p-5 flex items-start gap-4">
-              <div className="flex-shrink-0 mt-0.5">
+            <div className="p-6 flex items-start gap-5">
+              <div className={`
+                flex-shrink-0 p-2 rounded-2xl
+                ${alert.type === 'success' ? 'bg-emerald-500/10' :
+                  alert.type === 'error' ? 'bg-rose-500/10' :
+                    alert.type === 'warning' ? 'bg-amber-500/10' :
+                      'bg-indigo-500/10'}
+              `}>
                 {ICONS[alert.type] || ICONS.info}
               </div>
 
-              <div className="flex-grow">
-                <h3 className={`text-sm font-bold uppercase tracking-wider mb-1 ${alert.type === 'success' ? 'text-green-400' :
-                    alert.type === 'error' ? 'text-red-400' :
-                      alert.type === 'warning' ? 'text-yellow-400' :
-                        'text-blue-400'
+              <div className="flex-grow pt-1">
+                <h3 className={`text-[10px] font-black uppercase tracking-[0.2em] mb-1.5 ${alert.type === 'success' ? 'text-emerald-400' :
+                  alert.type === 'error' ? 'text-rose-400' :
+                    alert.type === 'warning' ? 'text-amber-400' :
+                      'text-indigo-400'
                   }`}>
                   {alert.type}
                 </h3>
-                <p className="text-gray-100 text-sm leading-relaxed font-medium">
+                <p className="text-white text-sm leading-relaxed font-bold tracking-tight">
                   {alert.message}
                 </p>
               </div>
 
               <button
                 onClick={closeAlert}
-                className="flex-shrink-0 text-gray-400 hover:text-white transition-colors"
+                className="flex-shrink-0 mt-1 p-1 rounded-full hover:bg-white/5 text-gray-400 hover:text-white transition-all"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <X className="w-5 h-5" />
               </button>
             </div>
           </div>

@@ -1,20 +1,24 @@
 @import "tailwindcss";
-html {
+
+html,
+body {
   scroll-behavior: smooth;
 }
 
 
 @keyframes flickerGlow {
-  0%   {
+  0% {
     opacity: 0.6;
     transform: translate(-50%, -50%) scale(1);
     filter: blur(1px) brightness(1.8);
   }
-  50%  {
+
+  50% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(2);
     filter: blur(2px) brightness(3);
   }
+
   100% {
     opacity: 0.6;
     transform: translate(-50%, -50%) scale(1);
@@ -24,9 +28,17 @@ html {
 
 
 @keyframes driftMovement {
-  0%   { transform: translate(-50%, -50%) translate(0px, 0px); }
-  50%  { transform: translate(-50%, -50%) translate(var(--dx), var(--dy)); }
-  100% { transform: translate(-50%, -50%) translate(0px, 0px); }
+  0% {
+    transform: translate(-50%, -50%) translate(0px, 0px);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translate(var(--dx), var(--dy));
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translate(0px, 0px);
+  }
 }
 
 
@@ -37,28 +49,59 @@ html {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes springUp {
-  from { opacity: 0; transform: translateY(40px) scale(0.95); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes slideInRight {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes slideOutRight {
-  from { transform: translateX(0); opacity: 1; }
-  to { transform: translateX(100%); opacity: 0; }
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 }
 
 @keyframes progressBar {
-  from { width: 100%; }
-  to { width: 0%; }
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
 }
 
 .animate-slideInRight {

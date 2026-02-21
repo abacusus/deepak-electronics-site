@@ -15,13 +15,15 @@ import TrackOrder from "./components/trackorder";
 import RandomBackground from "./components/RandomBackground";
 import ProductVid from "./components/ProductVid";
 import Admin_Vid from "./components/Admin_Vid";
+import OrderSuccess from "./components/OrderSuccess";
+import OrderFailed from "./components/OrderFailed";
 import './App.css';
 
 
 function Home() {
   return (
     <>
-      <TopHeader /> 
+      <TopHeader />
       <Navbar />
       <Carousel />
       <br />
@@ -41,21 +43,23 @@ function Home() {
 export default function App() {
   return (
     <Router>
-      
-    
+
+
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin_order" element={<Admin_Order />} />
         <Route path="/products" element={<ProductList />} />
-         <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
         <Route path="/trackorder" element={<TrackOrder />} />
         <Route path="/randombackground" element={<RandomBackground />} />
         <Route path="/productvideo" element={<ProductVid />} />
         <Route path="/admin_video" element={<Admin_Vid />} />
-        
+        <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="/order-failed" element={<OrderFailed />} />
+
       </Routes>
     </Router>
   );

@@ -1,0 +1,19 @@
+{
+    "name": "Deepak Electronics",
+    "short_name": "DeepakElec",
+    "icons": [
+        {
+            "src": "https://res.cloudinary.com/dcajb02df/image/upload/v1755178945/logod-removebg-preview_saiuhy.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://res.cloudinary.com/dcajb02df/image/upload/v1755178945/logod-removebg-preview_saiuhy.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#4f46e5",
+    "background_color": "#ffffff",
+    "display": "standalone"
+}

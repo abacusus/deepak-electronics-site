@@ -13,7 +13,7 @@ const Storep = () => {
           Visit Our Physical Store
         </h2>
         <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
-          Drop by our showroom or reach out to us for any queries.  
+          Drop by our showroom or reach out to us for any queries.
           We’d love to help you find the perfect weighing solution!
         </p>
       </div>
@@ -34,7 +34,7 @@ const Storep = () => {
             </p>
             <p className="flex items-center text-gray-700">
               <Mail className="w-5 h-5 text-indigo-600 mr-3" />
-             deepakelectronics320@gmail.com
+              deepakelectronics320@gmail.com
             </p>
           </div>
         </div>

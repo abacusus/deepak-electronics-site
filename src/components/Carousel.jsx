@@ -114,7 +114,7 @@ const Carousel = () => {
           <h2 className="font-mono font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-indigo-900 tracking-wide uppercase">
             Accurate Weighing Solutions for Every Need
           </h2>
-          <p className="mt-3 text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
+          <p className="mt-3 texto-purple-600 text-sm sm:text-base max-w-2xl mx-auto">
             Explore our wide range of weighing scales designed for kitchens,
             personal use, and professional industries — ensuring precision and reliability.
           </p>
@@ -153,7 +153,7 @@ const Carousel = () => {
                         transition duration-500 rounded-2xl
                       ">
                         <div className="flex flex-col">
-                          <span className="text-[10px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded-full uppercase tracking-widest w-fit mb-2">
+                          <span className="text-[10px] font-black bg-indigo-600 text-white px-2 py-0.5 rounded-full uppercase tracking-widest w-fit mb-2">
                             {product.category}
                           </span>
                           <h3 className="text-lg sm:text-xl font-bold text-white line-clamp-1">{product.name}</h3>
@@ -168,7 +168,7 @@ const Carousel = () => {
             </div>
           </div>
           <ChevronRight
-            className="w-12 h-12 cursor-pointer text-gray-500 hover:text-indigo-600 transition hidden md:block"
+            className="w-12 h-12 cursor-pointer text-gray-500 hover:textfrom-indigo-600 transition hidden md:block"
             onClick={nextSlide}
           />
         </div>

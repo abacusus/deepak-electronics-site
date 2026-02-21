@@ -131,72 +131,150 @@ export default function ProductDetails() {
 
     // CASH ORDER
     if (formData.paymentMethod === "Cash") {
-      const orderData = {
-        productId: product.productId,
-        productName: product.name,
-        quantity: formData.quantity,
-        paymentMethod: "Cash",
-        paymentStatus: "Pending",
-        address: { ...formData },
-      };
+      try {
+        const orderData = {
+          productId: product.productId,
+          productName: product.name,
+          quantity: formData.quantity,
+          paymentMethod: "Cash",
+          paymentStatus: "Pending",
+          address: { ...formData },
+        };
 
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData),
-      });
+        const res = await fetch("/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderData),
+        });
 
-      const data = await res.json();
-      showAlert(`Order placed! ID: ${data.orderId}`, "success");
-      setShowPopup(false);
+        const data = await res.json();
+        if (res.ok) {
+          navigate("/order-success", {
+            state: {
+              orderId: data.orderId,
+              product: product,
+              quantity: formData.quantity,
+              address: formData,
+              paymentMethod: formData.paymentMethod
+            }
+          });
+          setShowPopup(false);
+        } else {
+          showAlert(data.error || "Failed to place order", "error");
+        }
+      } catch (err) {
+        console.error(err);
+        showAlert("Server error. Please try again later.", "error");
+      }
     }
 
     // ONLINE PAYMENT
     else {
-      const razorOrder = await fetch("/api/create-razorpay-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: totalAmount }),
-      });
+      try {
+        const razorOrder = await fetch("/api/create-razorpay-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: totalAmount }),
+        });
 
-      const razorData = await razorOrder.json();
+        const razorData = await razorOrder.json();
 
-      const options = {
-        key: "rzp_test_SFdTe4quEbZtoc",
-        amount: razorData.amount,
-        currency: razorData.currency,
-        order_id: razorData.id,
+        if (!razorOrder.ok) {
+          showAlert(razorData.error || "Failed to create payment session", "error");
+          return;
+        }
 
-        handler: async function (response) {
-          const orderData = {
-            productId: product.productId,
-            productName: product.name,
-            quantity: formData.quantity,
-            paymentMethod: "Online",
-            paymentStatus: "Paid",
-            razorpayOrderId: response.razorpay_order_id,
-            razorpayPaymentId: response.razorpay_payment_id,
-            address: { ...formData },
-          };
+        const options = {
+          key: "rzp_test_SFzUuSJdmjm22D", // Consider moving to VITE_RAZORPAY_KEY_ID
+          amount: razorData.amount,
+          currency: razorData.currency,
+          name: "Deepak Electronics",
+          description: `Order for ${product.name}`,
+          order_id: razorData.id,
 
-          const res = await fetch("/api/orders", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(orderData),
+          handler: async function (response) {
+            try {
+              const verificationData = {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                productId: product.productId,
+                productName: product.name,
+                quantity: formData.quantity,
+                address: { ...formData },
+              };
+
+              const res = await fetch("/api/verify-payment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(verificationData),
+              });
+
+              const data = await res.json();
+
+              if (res.ok) {
+                navigate("/order-success", {
+                  state: {
+                    orderId: data.orderId,
+                    product: product,
+                    quantity: formData.quantity,
+                    address: formData,
+                    paymentMethod: formData.paymentMethod
+                  }
+                });
+                setShowPopup(false);
+              } else {
+                navigate("/order-failed", {
+                  state: {
+                    error: data.message || "Payment verification failed",
+                    productId: product.productId
+                  }
+                });
+              }
+            } catch (err) {
+              console.error(err);
+              navigate("/order-failed", {
+                state: {
+                  error: "An error occurred during payment verification.",
+                  productId: product.productId
+                }
+              });
+            }
+          },
+          prefill: {
+            name: formData.name,
+            email: formData.email,
+            contact: formData.mobile,
+          },
+          theme: {
+            color: "#4f46e5",
+          },
+          modal: {
+            ondismiss: function () {
+              console.log("Checkout closed");
+            }
+          }
+        };
+
+        if (!window.Razorpay) {
+          showAlert("Razorpay SDK not loaded. Please refresh page.", "error");
+          return;
+        }
+
+        const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', function (response) {
+          navigate("/order-failed", {
+            state: {
+              error: response.error.description,
+              productId: product.productId
+            }
           });
-
-          const data = await res.json();
-          showAlert(`Payment Successful! Order ID: ${data.orderId}`, "success");
-          setShowPopup(false);
-        },
-      };
-
-      const rzp = new window.Razorpay(options);
-      if (!window.Razorpay) {
-        alert("Razorpay SDK not loaded. Please refresh page.");
-        return;
+        });
+        rzp.open();
+      } catch (err) {
+        console.error(err);
+        showAlert("Failed to initiate payment", "error");
       }
-      rzp.open();
     }
   };
 
@@ -264,7 +342,7 @@ export default function ProductDetails() {
               />
               {/* Product Badge */}
               <div className="absolute top-6 left-6">
-                <span className="bg-indigo-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full shadow-lg shadow-indigo-200">
+                <span className="bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-lg shadow-indigo-200">
                   Premium {product.category}
                 </span>
               </div>
@@ -426,6 +504,7 @@ export default function ProductDetails() {
                     >+</button>
                   </div>
                 </div>
+
                 <div className="p-3 bg-indigo-600 rounded-2xl flex items-center justify-between text-white">
                   <span className="text-xs font-bold text-indigo-100 uppercase">Total Bill</span>
                   <span className="font-black text-lg">₹{(product.price * formData.quantity).toLocaleString('en-IN')}</span>

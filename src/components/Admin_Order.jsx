@@ -19,7 +19,9 @@ import {
   Loader2,
   ChevronRight,
   ClipboardList,
-  Search
+  Search,
+  CreditCard,
+  Banknote
 } from "lucide-react";
 
 const StatusBadge = ({ status }) => {
@@ -90,7 +92,8 @@ export default function Admin_Order() {
   const filteredOrders = orders.filter(order =>
     order.orderId.toLowerCase().includes(searchTerm.toLowerCase()) ||
     order.address.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    order.productName.toLowerCase().includes(searchTerm.toLowerCase())
+    order.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (order.razorpayPaymentId && order.razorpayPaymentId.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -266,6 +269,30 @@ export default function Admin_Order() {
                           </p>
                         </div>
                       </div>
+
+                      {/* Payment Information */}
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-slate-800 rounded-xl">
+                          {order.paymentMethod === 'Online' ? <CreditCard className="w-4 h-4 text-slate-400" /> : <Banknote className="w-4 h-4 text-slate-400" />}
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-bold text-slate-500 uppercase">Payment Info</p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <p className="text-sm font-bold text-slate-200">{order.paymentMethod}</p>
+                            <span className={`px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-tight border ${order.paymentStatus === 'Paid' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
+                              order.paymentStatus === 'Failed' ? 'bg-rose-500/10 text-rose-500 border-rose-500/20' :
+                                'bg-amber-500/10 text-amber-500 border-amber-500/20'
+                              }`}>
+                              {order.paymentStatus}
+                            </span>
+                          </div>
+                          {order.razorpayPaymentId && (
+                            <p className="text-[10px] font-black text-indigo-400 mt-2 font-mono">
+                              PID: {order.razorpayPaymentId}
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -275,7 +302,7 @@ export default function Admin_Order() {
         ) : (
           <div className="flex flex-col items-center justify-center py-32 bg-white/5 border border-white/10 rounded-[3rem] text-center">
             <div className="w-24 h-24 bg-slate-800 rounded-full flex items-center justify-center mb-6">
-              <ClipboardList className="w-12 h-12 text-slate-600" />
+              <ClipboardList className="w-12 h-12 text-slate-400" />
             </div>
             <h2 className="text-2xl font-black text-white mb-2">No matching orders</h2>
             <p className="text-slate-500 max-w-sm mx-auto font-medium">We couldn't find any orders matching your search. Try adjusting your filters.</p>

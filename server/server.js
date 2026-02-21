@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import Razorpay from "razorpay";
 import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
 
 const app = express();
 app.use(cors());
@@ -13,7 +14,7 @@ dotenv.config();
 
 //  MongoDB
 mongoose.connect(
-  "mongodb+srv://deepakguptabca:deepakguptabca@depak.ozxpibl.mongodb.net/?appName=depak",
+  process.env.mongod_db,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -21,7 +22,7 @@ mongoose.connect(
 );
 
 
-// razorpay payment gateway keys 
+// razorpay payment gateway keys  
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
@@ -78,7 +79,7 @@ const OrderSchema = new mongoose.Schema({
   productName: { type: String, required: true }, // product name
   quantity: { type: Number, required: true }, //  quantity
 
-  
+
   paymentMethod: { type: String, required: true }, // "Cash" or "Online"
   paymentStatus: { type: String, default: "Pending" }, // Pending, Paid, Failed
   razorpayOrderId: { type: String },
@@ -199,17 +200,21 @@ app.get("/api/getproducts/:productId", async (req, res) => {
   }
 });
 
-// Place order 
+// Place order (Cash)
 app.post("/api/orders", async (req, res) => {
-  const orderId = uuidv4().slice(0, 8);
+  try {
+    const orderId = uuidv4().slice(0, 8);
 
-  const order = new Order({
-    orderId,
-    ...req.body,
-  });
+    const order = new Order({
+      orderId,
+      ...req.body,
+    });
 
-  await order.save();
-  res.json({ message: "Order placed!", orderId });
+    await order.save();
+    res.json({ message: "Order placed!", orderId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 
@@ -219,15 +224,63 @@ app.post("/api/create-razorpay-order", async (req, res) => {
     const { amount } = req.body;
 
     const options = {
-      amount: amount * 100, // Razorpay works in paise
+      amount: Math.round(amount * 100), // Razorpay works in paise
       currency: "INR",
-      receipt: "receipt_" + Date.now(),
+      receipt: "receipt_" + uuidv4().slice(0, 8),
     };
 
     const order = await razorpay.orders.create(options);
 
     res.json(order);
   } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Verify Payment and Create Order (Online)
+app.post("/api/verify-payment", async (req, res) => {
+  try {
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      productId,
+      productName,
+      quantity,
+      address
+    } = req.body;
+
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
+
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(body.toString())
+      .digest("hex");
+
+    const isSignatureValid = expectedSignature === razorpay_signature;
+
+    if (isSignatureValid) {
+      const orderId = uuidv4().slice(0, 8);
+
+      const order = new Order({
+        orderId,
+        productId,
+        productName,
+        quantity,
+        paymentMethod: "Online",
+        paymentStatus: "Paid",
+        razorpayOrderId: razorpay_order_id,
+        razorpayPaymentId: razorpay_payment_id,
+        address,
+      });
+
+      await order.save();
+      res.json({ message: "Payment verified and order placed!", orderId });
+    } else {
+      res.status(400).json({ message: "Invalid signature" });
+    }
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });

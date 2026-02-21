@@ -200,7 +200,7 @@ export default function Admin_Vid() {
                         allowFullScreen
                       ></iframe>
                     ) : (
-                      <div className="flex flex-col items-center gap-4 text-slate-600 p-8 text-center">
+                      <div className="flex flex-col items-center gap-4 text-slate-400 p-8 text-center">
                         <Youtube className="w-12 h-12 opacity-20" />
                         <p className="text-[13px] font-bold">Paste a valid embed URL to see preview</p>
                       </div>

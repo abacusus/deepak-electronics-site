@@ -217,8 +217,10 @@ export default function TrackOrder() {
     setTrackingData(null);
     setError(null);
 
+    const sanitizedOrderId = orderId.trim().replace(/^#/, '');
+
     try {
-      const response = await fetch(`/api/orders/${orderId}`);
+      const response = await fetch(`/api/orders/${sanitizedOrderId}`);
       if (response.ok) {
         const data = await response.json();
         setTrackingData(data);
