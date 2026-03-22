@@ -285,6 +285,15 @@ app.post("/api/verify-payment", async (req, res) => {
   }
 });
 
+//status
+app.get("/", (req, res) => {
+  res.json({
+    status: "ok",
+    uptime: process.uptime(),
+    timestamp: Date.now(),
+    env: process.env.NODE_ENV || "development"
+  });
+});
 
 // Track order
 app.get("/api/orders/:orderId", async (req, res) => {
