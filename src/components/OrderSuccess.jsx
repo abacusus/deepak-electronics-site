@@ -266,7 +266,7 @@ export default function OrderSuccess() {
                                     onClick={handleDownloadPDF}
                                     className="no-print inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-indigo-600 rounded-[2rem] font-black hover:bg-indigo-50 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 min-w-[220px] text-lg"
                                 >
-                                    <FileText className="w-6 h-6" /> Download PDF Receipt
+                                    <FileText className="w-6 h-6" /> Download  Receipt
                                 </button>
                             </div>
                         </div>
@@ -277,7 +277,7 @@ export default function OrderSuccess() {
                         <div className="animate-fadeIn" style={{ animationDelay: '0.2s' }}>
                             <div className="flex items-center justify-between mb-6 px-4">
                                 <h2 className="text-2xl font-black text-slate-800 flex items-center gap-3">
-                                    <FileText className="w-7 h-7 text-indigo-600" /> Order Invoice
+                                    <FileText className="w-7 h-7 text-indigo-600" /> Order Receipt
                                 </h2>
                             </div>
 
